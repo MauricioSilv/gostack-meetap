@@ -4,7 +4,7 @@ import { format, subDays, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import api from '~/services/api';
-
+import CardMeetup from '~/components/CardMeetup';
 import Background from '~/components/Background';
 import { Container, DateFormated, TextDate, PageTitle } from './styles';
 
@@ -37,6 +37,7 @@ export default function Dashboard() {
             <Icon name="keyboard-arrow-right" size={28} color="#fff" />
           </TouchableOpacity>
         </PageTitle>
+        <CardMeetup />
       </Container>
     </Background>
   );
