@@ -18,6 +18,7 @@ routes.post('/sessions', SessionController.store);
 routes.use(authMiddleware);
 routes.put('/users', UserController.update);
 routes.get('/meetap', MeetapController.index);
+routes.get('/meetap/date', MeetapController.listMeetupDate);
 routes.post('/meetap', MeetapController.store);
 routes.put('/meetap/:id', MeetapController.update);
 routes.delete('/meetap/:id/destroy', MeetapController.delete);

@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import Meetap from '../models/Meetap';
 import User from '../models/User';
 import File from '../models/File';
+import Subscription from '../models/Subscription';
 
 class MeetapController {
   async index(req, res) {
@@ -37,6 +38,51 @@ class MeetapController {
     });
 
     return res.json(meetups);
+  }
+
+  async listMeetupDate(req, res) {
+    const { date, page = 1 } = req.query;
+
+    const searchedDate = parseISO(date);
+
+    const meetUps = await Meetap.findAll({
+      where: {
+        date: {
+          [Op.between]: [startOfDay(searchedDate), endOfDay(searchedDate)],
+        },
+        user_id: {
+          [Op.not]: req.userId,
+        },
+      },
+      offset: (page - 1) * 10,
+      limit: 10,
+      order: ['date'],
+      attributes: ['id', 'title', 'description', 'place', 'date'],
+      include: [
+        {
+          model: User,
+          as: 'owner',
+          attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: File,
+          as: 'banner',
+          attributes: ['id', 'url', 'path'],
+        },
+      ],
+    });
+    const subscriptions = await Subscription.findAll({
+      where: { user_id: req.userId },
+      attributes: ['id', 'meetap_id'],
+    });
+
+    const subscribedMeetups = subscriptions.map(sub => sub.meetap_id);
+
+    const mappedMeetUps = meetUps.filter(
+      meetap => !subscribedMeetups.includes(meetap.id)
+    );
+
+    return res.json(mappedMeetUps);
   }
 
   async store(req, res) {
