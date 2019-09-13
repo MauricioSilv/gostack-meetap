@@ -11,6 +11,10 @@ export const PageTitle = styled.View`
   margin: 20px 0;
 `;
 
+export const MeetupList = styled.FlatList`
+  flex: 1;
+`;
+
 export const DateFormated = styled.View``;
 
 export const TextDate = styled.Text`
