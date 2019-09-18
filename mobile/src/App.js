@@ -1,4 +1,5 @@
 import React from 'react';
+import FlashMessage from 'react-native-flash-message';
 import { useSelector } from 'react-redux';
 import createRouter from './routes';
 
@@ -7,5 +8,10 @@ export default function App() {
 
   const Routes = createRouter(signed);
 
-  return <Routes />;
+  return (
+    <>
+      <Routes />
+      <FlashMessage position="top" />
+    </>
+  );
 }

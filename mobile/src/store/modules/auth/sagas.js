@@ -1,5 +1,5 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
-import { Alert } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 import api from '~/services/api';
 import { signInSuccess, signFailure } from './actions';
 
@@ -15,7 +15,12 @@ export function* signIn({ payload }) {
     const { token, user } = response.data;
 
     if (user.provider) {
-      Alert.alert('error', 'Usuário não é prestador');
+      showMessage({
+        message: 'Usuário não é prestador',
+        type: 'danger',
+        icon: 'auto',
+        color: '#fff',
+      });
       return;
     }
 
@@ -25,7 +30,12 @@ export function* signIn({ payload }) {
 
     // history.push('/dashboard');
   } catch (err) {
-    Alert.alert('error', 'Falha na autenticação, verifique seus dados!');
+    showMessage({
+      message: 'Falha na autenticação, verifique seus dados!',
+      type: 'danger',
+      icon: 'auto',
+      color: '#fff',
+    });
     yield put(signFailure());
   }
 }
@@ -41,7 +51,12 @@ export function* signUp({ payload }) {
 
     // history.push('/');
   } catch (err) {
-    Alert.alert('error', 'Falha no cadastro, verifique seus dados!');
+    showMessage({
+      message: 'Falha na autenticação, verifique seus dados!',
+      type: 'danger',
+      icon: 'auto',
+      color: '#fff',
+    });
 
     yield put(signFailure());
   }

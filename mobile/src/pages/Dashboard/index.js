@@ -3,6 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { format, subDays, addDays, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { showMessage } from 'react-native-flash-message';
 import api from '~/services/api';
 import CardMeetup from '~/components/CardMeetup';
 import ExistsMeetup from '~/components/ExistsMeetup';
@@ -33,6 +34,25 @@ export default function Dashboard() {
         { locale: pt }
       ),
     }));
+  }
+
+  async function handleSubscriptionMeetups(item) {
+    const { id, title } = item;
+    try {
+      await api.post(`subscriptions/${id}/meetups`);
+
+      setMeetups(meetups.filter(mtp => mtp.id !== id));
+
+      showMessage({
+        message: `Você está inscrito no meetup ${title} com sucesso`,
+        type: 'success',
+      });
+    } catch (err) {
+      showMessage({
+        message: err.response.data.userMessage,
+        type: 'danger',
+      });
+    }
   }
 
   useEffect(() => {
@@ -72,7 +92,7 @@ export default function Dashboard() {
         renderItem={({ item }) => (
           <CardMeetup
             meetup={item}
-            ButtonPress={() => {}}
+            ButtonPress={() => handleSubscriptionMeetups(item)}
             ButtonText="Realizar inscrição"
           />
         )}
@@ -112,6 +132,6 @@ export default function Dashboard() {
 Dashboard.navigationOptions = {
   tabBarLabel: 'Meetups',
   tabBarIcon: ({ tintColor }) => (
-    <Icon name="event" size={20} color={tintColor} />
+    <Icon name="event-note" size={25} color={tintColor} />
   ),
 };
