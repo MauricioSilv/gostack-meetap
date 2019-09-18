@@ -1,9 +1,12 @@
-import { Model } from 'sequelize';
+import Sequelize, { Model } from 'sequelize';
 
 class Subscription extends Model {
   static init(sequelize) {
     super.init(
-      {},
+      {
+        user_id: Sequelize.INTEGER,
+        meetap_id: Sequelize.INTEGER,
+      },
       {
         sequelize,
       }
@@ -13,8 +16,8 @@ class Subscription extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Meetap, { foreignKey: 'meetap_id' });
-    this.belongsTo(models.User, { foreignKey: 'user_id' });
+    this.belongsTo(models.Meetap, { foreignKey: 'meetap_id', as: 'meetup' });
+    this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
   }
 }
 

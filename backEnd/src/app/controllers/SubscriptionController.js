@@ -1,5 +1,7 @@
-import { Op } from 'sequelize';
+// import { Op } from 'sequelize';
+import { isBefore } from 'date-fns';
 import User from '../models/User';
+import File from '../models/File';
 import Subscription from '../models/Subscription';
 import Meetap from '../models/Meetap';
 import Queue from '../../lib/Queue';
@@ -12,33 +14,42 @@ class SubscriptionController {
     /**
      * Condiçao pra listar meetaps que ainda nao passaram
      */
-    const subscription = await Subscription.findAll({
+    const subscriptions = await Subscription.findAll({
       where: {
         user_id: user_logged,
       },
       include: [
         {
           model: Meetap,
-          where: {
-            date: {
-              // gt significa '>'
-              [Op.gt]: new Date(),
+          as: 'meetup',
+          attributes: ['id', 'title', 'description', 'place', 'date'],
+          include: [
+            {
+              model: User,
+              as: 'owner',
+              attributes: ['id', 'name', 'email'],
             },
-          },
-          required: true,
+            {
+              model: File,
+              as: 'banner',
+              attributes: ['id', 'url', 'path'],
+            },
+          ],
         },
       ],
-      order: [[Meetap, 'date']],
+      order: [['meetup', 'date']],
     });
 
-    return res.json(subscription);
+    return res.json(
+      subscriptions.filter(sub =>
+        isBefore(new Date(), new Date(sub.meetup.date))
+      )
+    );
   }
 
   async store(req, res) {
     const user = await User.findByPk(req.userId);
-    const meetup = await Meetap.findByPk(req.params.idMeetup, {
-      include: [User],
-    });
+    const meetup = await Meetap.findByPk(req.params.idMeetup);
 
     // check usario logado != user meetap
     if (meetup.user_id === req.userId) {
@@ -58,6 +69,7 @@ class SubscriptionController {
       include: [
         {
           model: Meetap,
+          as: 'meetup',
           required: true,
           where: {
             date: meetup.date,
@@ -87,6 +99,32 @@ class SubscriptionController {
 
     return res.json(subscrition);
   }
-}
 
+  async destroy(req, res) {
+    const { meetUpId } = req.params;
+
+    const meetUp = Meetap.findByPk(meetUpId);
+    const subscription = await Subscription.findOne({
+      where: { user_id: req.userId, meetap_id: meetUpId },
+    });
+
+    if (!subscription) {
+      return res.status(404).json({
+        error: `Subscription to MeetUp with id ${meetUpId} not found.`,
+      });
+    }
+
+    if (isBefore(new Date(meetUp.date), new Date())) {
+      return res.status(400).json({
+        error: "You can't cancel the subscription of past MeetUps.",
+      });
+    }
+
+    Subscription.destroy({ where: { meetap_id: meetUpId } });
+
+    return res.json({
+      error: `Subscription to meetup with id ${meetUpId} was deleted.`,
+    });
+  }
+}
 export default new SubscriptionController();

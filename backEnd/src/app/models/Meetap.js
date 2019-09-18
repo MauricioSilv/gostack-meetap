@@ -26,7 +26,7 @@ class Meetap extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.Subscription, { foreignKey: 'meetap_id' });
+    // this.hasMany(models.Subscription, { foreignKey: 'meetap_id' });
     this.belongsTo(models.File, { foreignKey: 'img_id', as: 'banner' });
     this.belongsTo(models.User, { foreignKey: 'user_id', as: 'owner' });
   }
