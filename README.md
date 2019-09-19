@@ -33,48 +33,25 @@
   </li>
 </ul>
 
-<h2>Run project :stuck_out_tongue_winking_eye:</h2>
-  <ul>
-    <li>
-      Clone this repository
-      <div>
-        ``$ git clone https://github.com/MauricioSilv/gostack-meetap.git``
-      </div>
-    </li>
-    <li>
-      Install docker and create a postgres and redis container
-    </li>
-    <li>
-      Install dependencies
-      <div>
-        run ``yarn`` 
-        in the backend, frontend and mobile directories.
-      </div>
-    </li>
-    <li>
-      Run migrations to your database
-      <div>
-        run ``yarn migrate`` 
-        in the backend.
-      </div>
-    </li>
-    <li>
-      Run backend server
-      <div>
-        run ``yarn dev`` and 
-        ``yarn queue``
-      </div>
-    </li>
-    <li>
-      Install dependences frontend e run project
-      <div>
-        run ``yarn start``
-      </div>
-    </li>
-     <li>
-      Install dependences mobile e run project emulator `Android`
-      <div>
-        run ``react-native run-android``
-      </div>
-    </li>
-  </ul>
+ 
+## Run project :stuck_out_tongue_winking_eye:
+Clone this repository
+```$ git clone https://github.com/MauricioSilv/gostack-meetap.git```
+
+`Install docker and create a postgres and redis container`
+       
+Install dependencies
+  run ``yarn`` in the backend, frontend and mobile directories.
+      
+Run migrations to your database
+ run `yarn migrate` in the backend.
+      
+Run backend server
+ run ``yarn dev`` and ``yarn queue``.
+      
+Install dependences frontend e run project
+ run ``yarn start``.
+      
+Install dependences mobile e run project emulator `Android`
+ run ``react-native run-android``.
+      
