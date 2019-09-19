@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Container,
@@ -41,3 +42,20 @@ export default function CardMeetup({ meetup, ButtonPress, ButtonText }) {
     </Container>
   );
 }
+
+CardMeetup.propTypes = {
+  meetup: PropTypes.shape({
+    banner: PropTypes.object,
+    title: PropTypes.string,
+    formattedDate: PropTypes.string,
+    place: PropTypes.string,
+    owner: PropTypes.object,
+    id: PropTypes.number,
+  }).isRequired,
+  ButtonPress: PropTypes.func,
+  ButtonText: PropTypes.string.isRequired,
+};
+
+CardMeetup.defaultProps = {
+  ButtonPress: () => {},
+};

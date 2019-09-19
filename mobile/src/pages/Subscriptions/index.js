@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { showMessage } from 'react-native-flash-message';
 import CardMeetup from '~/components/CardMeetup';
-import ExistsMeetup from '~/components/ExistsMeetup';
+import ExistsSubscription from './ExistsSubscripton';
 import Background from '~/components/Background';
 import { Container, MeetUpsList } from './styles';
 import api from '~/services/api';
@@ -27,7 +27,7 @@ export default function Subscriptions() {
       setMeetups(subscriptionsMeetups);
     }
     getMeetupsSubscriptions();
-  }, []);
+  }, [meetups]);
 
   async function handleCancelSubscription({ id, title }) {
     try {
@@ -59,7 +59,7 @@ export default function Subscriptions() {
             ButtonText="Cancelar inscrição"
           />
         )}
-        ListEmptyComponent={<ExistsMeetup />}
+        ListEmptyComponent={<ExistsSubscription />}
       />
     );
   }
