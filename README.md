@@ -35,23 +35,22 @@
 
  
 ## Run project :stuck_out_tongue_winking_eye:
-Clone this repository
+:pushpin: Clone this repository
 ```$ git clone https://github.com/MauricioSilv/gostack-meetap.git```
 
-`Install docker and create a postgres and redis container`
+:pushpin: `Install docker and create a postgres and redis container`
        
-Install dependencies
+:pushpin: Install dependencies
   run ``yarn`` in the backend, frontend and mobile directories.
       
-Run migrations to your database
+:pushpin: Run migrations to your database
  run `yarn migrate` in the backend.
       
-Run backend server
+:pushpin: Run backend server
  run ``yarn dev`` and ``yarn queue``.
       
-Install dependences frontend e run project
+:pushpin: Install dependences frontend e run project
  run ``yarn start``.
       
-Install dependences mobile e run project emulator `Android`
+:pushpin: Install dependences mobile e run project emulator `Android`
  run ``react-native run-android``.
-      
