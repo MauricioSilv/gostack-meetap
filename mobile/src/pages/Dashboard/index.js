@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import { format, subDays, addDays, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -14,12 +14,14 @@ import {
   TextDate,
   PageTitle,
   MeetupList,
+  LoadingContent,
 } from './styles';
 
 export default function Dashboard() {
   const [meetups, setMeetups] = useState([]);
   const [date, setDate] = useState(new Date());
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const dateFormatted = useMemo(
     () => format(date, "d 'de' MMMM", { locale: pt }),
     [date]
@@ -57,6 +59,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function getMeetup() {
+      setLoading(true);
       const response = await api.get('meetap/date', {
         params: {
           date: date.toISOString(),
@@ -64,6 +67,7 @@ export default function Dashboard() {
       });
 
       setMeetups(formatMeetupsDate(response.data));
+      setLoading(false);
     }
     getMeetup();
   }, [date]);
@@ -83,6 +87,13 @@ export default function Dashboard() {
   }
 
   function renderMeetups() {
+    if (loading) {
+      return (
+        <LoadingContent>
+          <ActivityIndicator size="large" color="#d44059" />
+        </LoadingContent>
+      );
+    }
     return (
       <MeetupList
         data={meetups}

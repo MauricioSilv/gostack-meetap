@@ -23,3 +23,9 @@ export const TextDate = styled.Text`
   margin: 0 10px;
   font-size: 20px;
 `;
+
+export const LoadingContent = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
