@@ -1,5 +1,5 @@
 # Gostack Meetapp
-<p>Meetapp project to create events and register through the mobile app, for more convenience is in the events you want.</p>
+<p>Meetapp project to create events and register through the mobile app android, for more convenience is in the events you want.</p>
 
 <h2>Technologies :boom:</h2>
 <p>Key technologies used in this meetapp project and others not mentioned.</p>
@@ -21,6 +21,9 @@
   </li>
   <li>
       <a href="https://redux-saga.js.org/">Redux-Saga</a>
+  </li>
+  <li>
+      <a href="https://www.postgresql.org/">Postgres</a>
   </li>
   <li>
       <a href="https://www.styled-components.com/">Styled-components</a>
